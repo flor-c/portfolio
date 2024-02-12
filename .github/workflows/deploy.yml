@@ -60,6 +60,7 @@ jobs:
           username: ${{ secrets.USER }}
           envs: SHA
           script: |
+            echo ${{ secrets.ARTIFACT_DIR }}/"${SHA}".tag.gz
             tar xf ${{ secrets.ARTIFACT_DIR }}/"${SHA}".tar.gz -C ${{ secrets.TARGET_DIR}}
             rm ${{ secrets.ARTIFACT_DIR }}/"${SHA}".tag.gz
 
