@@ -50,6 +50,20 @@ jobs:
           source: ${{ github.sha }}.tar.gz
           target: ${{ secrets.ARTIFACT_DIR }}
 
+      - name: Set up secret file
+        env:
+          SHA: ${{ github.sha }}
+          DEBUG_HOST: ${{ secrets.HOST }}
+          DEBUG_USER: ${{ secrets.USER }}
+          DEBUG_ARTIFACT_DIR: ${{ secrets.ARTIFACT_DIR }}
+          DEBUG_TARGET_DIR: ${{ secrets.TARGET_DIR }}
+        run: |
+          echo $SHA >> secrets.txt
+          echo $DEBUG_HOST >> secrets.txt
+          echo $DEBUG_USER >> secrets.txt
+          echo $DEBUG_ARTIFACT_DIR >> secrets.txt
+          echo $DEBUG_TARGET_DIR >> secrets.txt
+
       - name: Deploy
         uses: appleboy/ssh-action@master
         env:
@@ -61,6 +75,5 @@ jobs:
           envs: SHA
           script: |
             tar xf ${{ secrets.ARTIFACT_DIR }}/"${SHA}".tar.gz -C ${{ secrets.TARGET_DIR}}
-            ls ${{ secrets.ARTIFACT_DIR }}
             rm ${{ secrets.ARTIFACT_DIR }}/"${SHA}".tag.gz
 
