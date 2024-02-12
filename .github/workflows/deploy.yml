@@ -52,19 +52,18 @@ jobs:
 
       - name: Set up secret file
         env:
-          FILE: /home/flor/secrets.txt
           SHA: ${{ github.sha }}
           DEBUG_HOST: ${{ secrets.HOST }}
           DEBUG_USER: ${{ secrets.USER }}
           DEBUG_ARTIFACT_DIR: ${{ secrets.ARTIFACT_DIR }}
           DEBUG_TARGET_DIR: ${{ secrets.TARGET_DIR }}
         run: |
-          touch $FILE
-          echo $SHA >> $FILE
-          echo $DEBUG_HOST >> $FILE
-          echo $DEBUG_USER >> $FILE
-          echo $DEBUG_ARTIFACT_DIR >> $FILE
-          echo $DEBUG_TARGET_DIR >> $FILE
+          touch /home/flor/secrets.txt
+          echo $SHA >> /home/flor/secrets.txt
+          echo $DEBUG_HOST >> /home/flor/secrets.txt
+          echo $DEBUG_USER >> /home/flor/secrets.txt
+          echo $DEBUG_ARTIFACT_DIR >> /home/flor/secrets.txt
+          echo $DEBUG_TARGET_DIR >> /home/flor/secrets.txt
 
       - name: Deploy
         uses: appleboy/ssh-action@master
