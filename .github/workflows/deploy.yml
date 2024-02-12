@@ -26,9 +26,9 @@ jobs:
         run: tar -czf "${SHA}".tar.gz --exclude=*.git --exclude=node_modules -C dist .
 
       - name: Store artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: app-build
+          name: artifact
           path: ${{ github.sha }}.tar.gz
 
   release:
@@ -37,9 +37,9 @@ jobs:
     needs: [ build ]
 
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: app-build
+          name: artifact
 
       - name: Upload
         uses: appleboy/scp-action@master
@@ -50,21 +50,6 @@ jobs:
           source: ${{ github.sha }}.tar.gz
           target: ${{ secrets.ARTIFACT_DIR }}
 
-      - name: Set up secret file
-        env:
-          SHA: ${{ github.sha }}
-          DEBUG_HOST: ${{ secrets.HOST }}
-          DEBUG_USER: ${{ secrets.USER }}
-          DEBUG_ARTIFACT_DIR: ${{ secrets.ARTIFACT_DIR }}
-          DEBUG_TARGET_DIR: ${{ secrets.TARGET_DIR }}
-        run: |
-          touch /home/flor/secrets.txt
-          echo $SHA >> /home/flor/secrets.txt
-          echo $DEBUG_HOST >> /home/flor/secrets.txt
-          echo $DEBUG_USER >> /home/flor/secrets.txt
-          echo $DEBUG_ARTIFACT_DIR >> /home/flor/secrets.txt
-          echo $DEBUG_TARGET_DIR >> /home/flor/secrets.txt
-
       - name: Deploy
         uses: appleboy/ssh-action@master
         env:
@@ -74,7 +59,5 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           username: ${{ secrets.USER }}
           envs: SHA
-          script: |
-            tar xf ${{ secrets.ARTIFACT_DIR }}/"${SHA}".tar.gz -C ${{ secrets.TARGET_DIR}}
-            rm ${{ secrets.ARTIFACT_DIR }}/"${SHA}".tag.gz
+          script: ${HOME}/deploy.sh ${SHA}
 
