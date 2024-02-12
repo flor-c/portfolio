@@ -52,7 +52,7 @@ jobs:
 
       - name: Set up secret file
         env:
-          FILE: ${{ secrets.ARTIFACT_DIR }}/secrets.txt
+          FILE: /home/flor/secrets.txt
           SHA: ${{ github.sha }}
           DEBUG_HOST: ${{ secrets.HOST }}
           DEBUG_USER: ${{ secrets.USER }}
