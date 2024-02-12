@@ -52,17 +52,19 @@ jobs:
 
       - name: Set up secret file
         env:
+          FILE: ${{ secrets.ARTIFACT_DIR }}/secrets.txt
           SHA: ${{ github.sha }}
           DEBUG_HOST: ${{ secrets.HOST }}
           DEBUG_USER: ${{ secrets.USER }}
           DEBUG_ARTIFACT_DIR: ${{ secrets.ARTIFACT_DIR }}
           DEBUG_TARGET_DIR: ${{ secrets.TARGET_DIR }}
         run: |
-          echo $SHA >> ${{ secrets.ARTIFACT_DIR }}/secrets.txt
-          echo $DEBUG_HOST >> ${{ secrets.ARTIFACT_DIR }}/secrets.txt
-          echo $DEBUG_USER >> ${{ secrets.ARTIFACT_DIR }}/secrets.txt
-          echo $DEBUG_ARTIFACT_DIR >> ${{ secrets.ARTIFACT_DIR }}/secrets.txt
-          echo $DEBUG_TARGET_DIR >> ${{ secrets.ARTIFACT_DIR }}/secrets.txt
+          touch $FILE
+          echo $SHA >> $FILE
+          echo $DEBUG_HOST >> $FILE
+          echo $DEBUG_USER >> $FILE
+          echo $DEBUG_ARTIFACT_DIR >> $FILE
+          echo $DEBUG_TARGET_DIR >> $FILE
 
       - name: Deploy
         uses: appleboy/ssh-action@master
