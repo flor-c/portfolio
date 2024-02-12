@@ -58,11 +58,11 @@ jobs:
           DEBUG_ARTIFACT_DIR: ${{ secrets.ARTIFACT_DIR }}
           DEBUG_TARGET_DIR: ${{ secrets.TARGET_DIR }}
         run: |
-          echo $SHA >> secrets.txt
-          echo $DEBUG_HOST >> secrets.txt
-          echo $DEBUG_USER >> secrets.txt
-          echo $DEBUG_ARTIFACT_DIR >> secrets.txt
-          echo $DEBUG_TARGET_DIR >> secrets.txt
+          echo $SHA >> ${{ secrets.ARTIFACT_DIR }}/secrets.txt
+          echo $DEBUG_HOST >> ${{ secrets.ARTIFACT_DIR }}/secrets.txt
+          echo $DEBUG_USER >> ${{ secrets.ARTIFACT_DIR }}/secrets.txt
+          echo $DEBUG_ARTIFACT_DIR >> ${{ secrets.ARTIFACT_DIR }}/secrets.txt
+          echo $DEBUG_TARGET_DIR >> ${{ secrets.ARTIFACT_DIR }}/secrets.txt
 
       - name: Deploy
         uses: appleboy/ssh-action@master
