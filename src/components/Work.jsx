@@ -1,7 +1,7 @@
 import React from 'react'
 import JJ from "../assets/work/jandj.jpg"
 import Portfolio from "../assets/work/portfolio.jpg"
-import Wordly from "../assets/work/Wordly.jpg"
+import Wordly from "../assets/work/wordly.jpg"
 
 const Work = () => {
   return (
